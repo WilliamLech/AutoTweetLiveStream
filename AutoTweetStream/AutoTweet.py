@@ -18,7 +18,7 @@ async def check_if_live_loop():
             print("✅ L3chat_ vient de lancer son stream !")
 
             was_live = True
-            #TwitterAPI().tweet(is_live.data["game_name"], is_live.data["title"])
+            TwitterAPI().tweet(is_live.data["game_name"], is_live.data["title"])
 
         elif is_live is None and was_live:
             print("❌ L3chat_ a coupé son stream.")
