@@ -44,7 +44,9 @@ class TwitchAPI:
             return None
         url = f"https://api.twitch.tv/helix/streams?user_id={user_id}"
         res = requests.get(url, headers=self._get_headers()).json()
-        return res["data"][0]
+        return res["data"][0] if "data" in res and res["data"] else None
+
+
 
 # 👇 Instance prête à être utilisée
 twitch_api = TwitchAPI()

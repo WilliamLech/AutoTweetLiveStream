@@ -1,6 +1,6 @@
 import asyncio
 
-from AutoTweetStream.twitter_api import TwitterAPI
+from twitter_api import TwitterAPI
 from twitch_api import twitch_api
 import twitchStreamInfo
 
@@ -11,23 +11,23 @@ async def check_if_live_loop():
     was_live = False
     while True:
         print(f"📡 Checking Twitch live status for {TWITCH_USER}...")
-        is_live = twitchStreamInfo.TwitchStreamInfo(twitch_api.is_user_live(TWITCH_USER))
-        print(f"🎯 Résultat : {'LIVE' if is_live else 'offline'}")
+        is_live =  twitchStreamInfo.TwitchStreamInfo.from_api_response(twitch_api.is_user_live(TWITCH_USER))
+        print(f"🎯 Résultat : {'LIVE' if is_live is not None else 'offline'}")
 
-        if is_live and not was_live:
+        if is_live is not None and not was_live:
             print("✅ L3chat_ vient de lancer son stream !")
 
             was_live = True
-            TwitterAPI().tweet(is_live.data["game_name"], is_live.data["title"])
+            #TwitterAPI().tweet(is_live.data["game_name"], is_live.data["title"])
 
-        elif not is_live and was_live:
+        elif is_live is None and was_live:
             print("❌ L3chat_ a coupé son stream.")
             was_live = False
 
         else:
-            print(f"🔁 Vérif Twitch : {'LIVE' if is_live else 'offline'}")
+            print(f"🔁 Vérif Twitch : {'LIVE' if is_live is not None else 'offline'}")
 
-        await asyncio.sleep(300)  # ⏱️ toutes les 5 minutes
+        await asyncio.sleep(300000)  # ⏱️ toutes les 5 minutes
 
 # À démarrer au lancement de ton bot
 async def main():
