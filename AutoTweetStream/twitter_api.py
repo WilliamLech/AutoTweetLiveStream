@@ -20,7 +20,10 @@ class TwitterAPI:
             "for_super_followers_only": False
         }
 
-        response = requests.post(params.TWITTER_API_URL, json = payload,auth=self.auth)
-        print(response.text)
+        try:
+            response = requests.post(params.TWITTER_API_URL, json = payload,auth=self.auth)
+            print(response.text)
+        except Exception as e:
+            print(f"Une erreur est survenue : {e}")
 
 twitter_api = TwitterAPI()
